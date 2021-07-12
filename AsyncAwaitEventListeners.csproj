@@ -94,7 +94,6 @@
     </ItemGroup>
     <ItemGroup>
         <Compile Include="MainWindowViewModel.cs" />
-        <Compile Include="OrganisationsViewModel.cs" />
         <Compile Include="Properties\AssemblyInfo.cs">
             <SubType>Code</SubType>
         </Compile>
