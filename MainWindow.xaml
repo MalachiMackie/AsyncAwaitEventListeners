@@ -1,0 +1,84 @@
+﻿<Window x:Class="AsyncAwaitEventListeners.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:AsyncAwaitEventListeners"
+        mc:Ignorable="d"
+        d:DataContext="{d:DesignInstance local:MainWindowViewModel}"
+        Title="MainWindow" Height="550" Width="650">
+    <Window.Resources>
+        <Style TargetType="Button">
+            <Setter Property="HorizontalAlignment" Value="Left" />
+            <Setter Property="Margin" Value="10" />
+            <Setter Property="Padding" Value="2" />
+        </Style>
+    </Window.Resources>
+    <StackPanel>
+        
+        <Label FontWeight="Bold">Async Void</Label>
+        <StackPanel Orientation="Horizontal">
+            <Button Click="AsyncVoidSuccessful">Successful</Button>
+            <Button Click="AsyncVoidHandleException">Handle Exception</Button>
+            <Button Click="AsyncVoidDontHandleException">Don't handle Exception</Button>
+        </StackPanel>
+        
+        <Label FontWeight="Bold">Sync Void</Label>
+        <StackPanel Orientation="Horizontal">
+            <Button Click="VoidSuccessful">Successful</Button>
+            <Button Click="VoidHandleException">Handle Exception</Button>
+            <Button Click="VoidDontHandleException">Don't handle Exception</Button>
+        </StackPanel>
+        
+        <Label FontWeight="Bold">Async Command</Label>
+        <StackPanel Orientation="Horizontal">
+            <Button Command="{Binding AsyncSuccessfulCommand}">Successful</Button>
+            <Button Command="{Binding AsyncHandleExceptionCommand}">Handle Exception</Button>
+            <Button Command="{Binding AsyncDontHandleExceptionCommand}">Don't handle Exception</Button>
+        </StackPanel>
+        
+        <Label FontWeight="Bold">Sync Command</Label>
+        <StackPanel Orientation="Horizontal">
+            <Button Command="{Binding SyncSuccessfulCommand}">Successful</Button>
+            <Button Command="{Binding SyncHandleExceptionCommand}">Handle Exception</Button>
+            <Button Command="{Binding SyncDontHandleExceptionCommand}">Don't handle Exception</Button>
+        </StackPanel>
+        
+        <Label FontWeight="Bold">Observable Collection Command Access</Label>
+        <StackPanel Orientation="Horizontal">
+            <Button Command="{Binding SyncAddItemCommand}">Sync From UI Thread</Button>
+            <Button Command="{Binding AsyncAddItemCommand}">Async From UI Thread</Button>
+            <Button Command="{Binding SyncAddItemFromTaskContinueWithCommand}">Sync From Task.ContinueWith</Button>
+            <Button Command="{Binding AsyncAddItemFromTaskCommand}">Async From Task.Run</Button>
+        </StackPanel>
+        
+        <ItemsControl ItemsSource="{Binding Items}"></ItemsControl>
+        
+        <TextBlock Text="Loading...">
+            <TextBlock.Style>
+                <Style TargetType="TextBlock">
+                    <Setter Property="Visibility" Value="Collapsed" />
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsBusy}" Value="True">
+                            <Setter Property="Visibility" Value="Visible" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </TextBlock.Style>
+        </TextBlock>
+        <TextBlock Foreground="Red" Text="{Binding ErrorContent}">
+            <TextBlock.Style>
+                <Style TargetType="TextBlock">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding HasError}" Value="True">
+                            <Setter Property="Visibility" Value="Visible"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </TextBlock.Style>
+        </TextBlock>
+        <TextBlock Text="{Binding Content}" />
+        <Button Command="{Binding ClearCommand}" Content="Clear"></Button>
+    </StackPanel>
+</Window>
